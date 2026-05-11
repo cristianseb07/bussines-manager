@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="./bizmgr_logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <title>Business Manager</title>
+    <script>
+      (function() {
+        const saved = localStorage.getItem('theme') || 'dark';
+        const root = document.documentElement;
+        let themeToApply = saved;
+        if (saved === 'system') {
+          themeToApply = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        root.setAttribute('data-theme', themeToApply);
+        document.addEventListener('DOMContentLoaded', () => {
+          document.body.classList.add(themeToApply + '-mode');
+          document.body.style.backgroundColor = themeToApply === 'dark' ? '#0f172a' : '#f8fafc';
+        });
+      })();
+    </script>
+    <script type="module" crossorigin src="./assets/index-Bdp2TIFD.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BrvtISWL.css">
+  <link rel="manifest" href="./manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="./registerSW.js"></script></head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
