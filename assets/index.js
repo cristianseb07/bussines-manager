@@ -38867,13 +38867,17 @@ const AuthProvider = ({ children }) => {
       }
     });
     const timer = setTimeout(async () => {
-      if (loading) {
-        console.warn("AuthContext: Timeout global alcanzado. Cerrando sesión y mostrando login...");
-        await supabase.auth.signOut();
-        setUser(null);
-        setProfile(null);
-        setLoading(false);
-      }
+      setLoading((prevLoading) => {
+        if (prevLoading) {
+          console.warn("AuthContext: Timeout global alcanzado. Redirigiendo a Login...");
+          supabase.auth.signOut().then(() => {
+            setUser(null);
+            setProfile(null);
+          });
+          return false;
+        }
+        return false;
+      });
     }, 12e3);
     return () => {
       subscription.unsubscribe();
@@ -38881,17 +38885,17 @@ const AuthProvider = ({ children }) => {
     };
   }, []);
   const refreshProfile = async (supabaseUser) => {
-    console.log("refreshProfile: Buscando perfil para", supabaseUser.email);
+    console.log("refreshProfile: Iniciando para", supabaseUser.id);
     try {
       const timeoutPromise = new Promise(
-        (_, reject) => setTimeout(() => reject(new Error("Timeout: La consulta a la base de datos tardó demasiado")), 8e3)
+        (_, reject) => setTimeout(() => reject(new Error("Timeout: Supabase no respondió al perfil")), 8e3)
       );
       const data = await Promise.race([
         supabaseService.getUserProfile(supabaseUser.id),
         timeoutPromise
       ]);
       if (data) {
-        console.log("refreshProfile: Perfil encontrado. Plan:", data.plan);
+        console.log("refreshProfile: Perfil cargado OK");
         setProfile(data);
         try {
           const deviceInfo = {
@@ -38901,28 +38905,20 @@ const AuthProvider = ({ children }) => {
             lastAccess: (/* @__PURE__ */ new Date()).toISOString()
           };
           await supabaseService.updateLastLogin(supabaseUser.id, deviceInfo);
-        } catch (deviceErr) {
-          console.warn("refreshProfile: No se pudo actualizar dispositivo, continuando...", deviceErr);
+        } catch (e) {
+          console.warn("refreshProfile: Error al actualizar dispositivo", e);
         }
         validateSubscription(data);
       } else {
-        console.log("refreshProfile: No existe perfil, creando uno nuevo...");
-        try {
-          const newProfile = await supabaseService.createUserProfile(supabaseUser.id, supabaseUser.email || "", {
-            plan: "free"
-          });
-          setProfile(newProfile);
-          setIsValidated(true);
-        } catch (createErr) {
-          console.error("refreshProfile: No se pudo crear perfil. Cerrando sesión.", createErr);
-          await supabase.auth.signOut();
-          setUser(null);
-          setProfile(null);
-        }
+        console.log("refreshProfile: Perfil no encontrado, creando...");
+        const newProfile = await supabaseService.createUserProfile(supabaseUser.id, supabaseUser.email || "", {
+          plan: "free"
+        });
+        setProfile(newProfile);
+        setIsValidated(true);
       }
     } catch (e) {
-      console.error("refreshProfile: Error fatal:", e?.message || e);
-      console.warn("refreshProfile: Cerrando sesión para mostrar pantalla de login...");
+      console.error("refreshProfile: ERROR:", e?.message || e);
       await supabase.auth.signOut();
       setUser(null);
       setProfile(null);
@@ -38931,6 +38927,7 @@ const AuthProvider = ({ children }) => {
     }
   };
   const validateSubscription = (data) => {
+    console.log("validateSubscription: Validando plan", data.plan);
     if (data.status === "blocked") {
       setIsValidated(false);
       return;
@@ -38941,30 +38938,32 @@ const AuthProvider = ({ children }) => {
     }
     if (data.expires_at) {
       const expiry = new Date(data.expires_at);
-      if (expiry > /* @__PURE__ */ new Date()) {
-        setIsValidated(true);
-        localStorage.setItem("bizmgr_last_validation", (/* @__PURE__ */ new Date()).toISOString());
-      } else {
-        setIsValidated(true);
-      }
+      setIsValidated(expiry > /* @__PURE__ */ new Date());
+      localStorage.setItem("bizmgr_last_validation", (/* @__PURE__ */ new Date()).toISOString());
     } else {
       setIsValidated(false);
     }
   };
   const login = async (email, pass) => {
+    console.log("AuthContext: Intentando Login para", email);
     setLoading(true);
     try {
       await supabaseService.loginWithEmail(email, pass);
+      console.log("AuthContext: Login exitoso en Supabase");
     } catch (e) {
+      console.error("AuthContext: Error en Login:", e);
       setLoading(false);
       throw e;
     }
   };
   const register = async (email, pass) => {
+    console.log("AuthContext: Intentando Registro para", email);
     setLoading(true);
     try {
       await supabaseService.registerWithEmail(email, pass);
+      console.log("AuthContext: Registro exitoso en Supabase");
     } catch (e) {
+      console.error("AuthContext: Error en Registro:", e);
       setLoading(false);
       throw e;
     }
