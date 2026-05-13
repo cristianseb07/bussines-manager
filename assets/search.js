@@ -1,9 +1,1 @@
-import { c as createLucideIcon } from "./index.js";
-const __iconNode = [
-  ["path", { d: "m21 21-4.34-4.34", key: "14j7rj" }],
-  ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }]
-];
-const Search = createLucideIcon("search", __iconNode);
-export {
-  Search as S
-};
+import{c}from"./index.js";const e=[["path",{d:"m21 21-4.34-4.34",key:"14j7rj"}],["circle",{cx:"11",cy:"11",r:"8",key:"4ej97u"}]],o=c("search",e);export{o as S};
