@@ -38910,18 +38910,17 @@ const AuthProvider = ({ children }) => {
         }
         validateSubscription(data);
       } else {
-        console.log("refreshProfile: Perfil no encontrado, creando...");
+        console.log("refreshProfile: No existe perfil. Intentando crear uno nuevo...");
         const newProfile = await supabaseService.createUserProfile(supabaseUser.id, supabaseUser.email || "", {
           plan: "free"
         });
+        console.log("refreshProfile: Perfil creado con éxito.");
         setProfile(newProfile);
         setIsValidated(true);
       }
     } catch (e) {
-      console.error("refreshProfile: ERROR:", e?.message || e);
-      await supabase.auth.signOut();
-      setUser(null);
-      setProfile(null);
+      console.error("refreshProfile: ERROR CRITICO AL CARGAR/CREAR PERFIL:", e?.message || e);
+      setLoading(false);
     } finally {
       setLoading(false);
     }
