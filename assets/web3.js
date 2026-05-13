@@ -1,1 +1,24 @@
-import{W as a}from"./index4.js";class n extends a{async canShare(){return typeof navigator>"u"||!navigator.share?{value:!1}:{value:!0}}async share(e){if(typeof navigator>"u"||!navigator.share)throw this.unavailable("Share API not available in this browser");return await navigator.share({title:e.title,text:e.text,url:e.url}),{}}}export{n as ShareWeb};
+import { W as WebPlugin } from "./index4.js";
+class ShareWeb extends WebPlugin {
+  async canShare() {
+    if (typeof navigator === "undefined" || !navigator.share) {
+      return { value: false };
+    } else {
+      return { value: true };
+    }
+  }
+  async share(options) {
+    if (typeof navigator === "undefined" || !navigator.share) {
+      throw this.unavailable("Share API not available in this browser");
+    }
+    await navigator.share({
+      title: options.title,
+      text: options.text,
+      url: options.url
+    });
+    return {};
+  }
+}
+export {
+  ShareWeb
+};

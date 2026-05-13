@@ -1,1 +1,44 @@
-import{W as t}from"./index4.js";class s extends t{constructor(){super(),this.handleVisibilityChange=()=>{const e={isActive:document.hidden!==!0};this.notifyListeners("appStateChange",e),document.hidden?this.notifyListeners("pause",null):this.notifyListeners("resume",null)},document.addEventListener("visibilitychange",this.handleVisibilityChange,!1)}exitApp(){throw this.unimplemented("Not implemented on web.")}async getInfo(){throw this.unimplemented("Not implemented on web.")}async getLaunchUrl(){return{url:""}}async getState(){return{isActive:document.hidden!==!0}}async minimizeApp(){throw this.unimplemented("Not implemented on web.")}async toggleBackButtonHandler(){throw this.unimplemented("Not implemented on web.")}async getAppLanguage(){return{value:navigator.language.split("-")[0].toLowerCase()}}}export{s as AppWeb};
+import { W as WebPlugin } from "./index4.js";
+class AppWeb extends WebPlugin {
+  constructor() {
+    super();
+    this.handleVisibilityChange = () => {
+      const data = {
+        isActive: document.hidden !== true
+      };
+      this.notifyListeners("appStateChange", data);
+      if (document.hidden) {
+        this.notifyListeners("pause", null);
+      } else {
+        this.notifyListeners("resume", null);
+      }
+    };
+    document.addEventListener("visibilitychange", this.handleVisibilityChange, false);
+  }
+  exitApp() {
+    throw this.unimplemented("Not implemented on web.");
+  }
+  async getInfo() {
+    throw this.unimplemented("Not implemented on web.");
+  }
+  async getLaunchUrl() {
+    return { url: "" };
+  }
+  async getState() {
+    return { isActive: document.hidden !== true };
+  }
+  async minimizeApp() {
+    throw this.unimplemented("Not implemented on web.");
+  }
+  async toggleBackButtonHandler() {
+    throw this.unimplemented("Not implemented on web.");
+  }
+  async getAppLanguage() {
+    return {
+      value: navigator.language.split("-")[0].toLowerCase()
+    };
+  }
+}
+export {
+  AppWeb
+};

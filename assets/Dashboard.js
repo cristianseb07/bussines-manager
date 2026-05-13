@@ -1,4 +1,69 @@
-import{c as j,u as C,a as r,j as e,W as A,P as m,U as T,d as n}from"./index.js";import{T as $}from"./triangle-alert.js";import{C as S}from"./clock.js";import{A as v}from"./arrow-up-right.js";const I=[["path",{d:"m7 7 10 10",key:"1fmybs"}],["path",{d:"M17 7v10H7",key:"6fjiku"}]],N=j("arrow-down-right",I);const L=[["path",{d:"M16 7h6v6",key:"box55l"}],["path",{d:"m22 7-8.5 8.5-5-5L2 17",key:"1t1m79"}]],P=j("trending-up",L),x=({label:s,value:c,icon:l,color:p,trend:i,onClick:o})=>e.jsxs("div",{onClick:o,className:`glass-card p-6 relative overflow-hidden group ${o?"cursor-pointer hover:ring-2 hover:ring-blue-500/50":""}`,children:[e.jsx("div",{className:"absolute top-0 right-0 w-24 h-24 -mr-8 -mt-8 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity",children:e.jsx(l,{size:96})}),e.jsxs("div",{className:"flex items-center gap-4 relative z-10",children:[e.jsx("div",{className:`p-4 rounded-2xl bg-slate-900/50 border border-slate-800 ${p} group-hover:scale-110 transition-transform duration-500`,children:e.jsx(l,{size:24})}),e.jsxs("div",{children:[e.jsx("p",{className:"text-xs font-black text-[var(--text-muted)] uppercase tracking-widest mb-1 opacity-70",children:s}),e.jsxs("div",{className:"flex items-end gap-3",children:[e.jsx("p",{className:"text-2xl font-black tracking-normal text-[var(--text-main)]",children:c}),i&&e.jsxs("span",{className:`flex items-center text-[10px] font-bold px-1.5 py-0.5 rounded-md mb-1 ${i.startsWith("+")?"bg-green-500/10 text-green-400":"bg-red-500/10 text-red-400"}`,children:[i.startsWith("+")?e.jsx(v,{size:10,className:"mr-0.5"}):e.jsx(N,{size:10,className:"mr-0.5"}),i]})]})]})]})]}),R=()=>{const s=C(),c=r(()=>n.settings.toArray()),l=r(()=>n.products.count()),p=r(()=>n.contacts.count()),i=r(()=>n.accounts.toArray()),o=r(()=>n.products.toArray()),u=r(()=>n.products.filter(t=>t.stock<=5).toArray()),h=r(()=>n.transactions.orderBy("date").reverse().limit(5).toArray()),y=c?.find(t=>t.key==="bizName")?.value||localStorage.getItem("bizName")||"Empresa",g=c?.find(t=>t.key==="currency")?.value||localStorage.getItem("currency")||"$",k=i?.reduce((t,a)=>t+Number(a.balance||0),0)||0,w=o?.reduce((t,a)=>t+Number(a.price||0)*Number(a.stock||0),0)||0,z=t=>t.type==="transfer"?t.unitPrice||0:(t.items||(t.productId?[{productId:t.productId,quantity:t.quantity||1,unitPrice:t.unitPrice||0}]:[])).reduce((b,f)=>b+f.unitPrice*f.quantity,0)*(t.includesTax?1+(t.taxRate||0)/100:1);return e.jsxs("div",{className:"page-section p-4 sm:p-8 animate-fade-in flex flex-col",children:[e.jsxs("header",{className:"mb-12 pt-10 page-header",children:[e.jsxs("h1",{className:"text-3xl sm:text-4xl font-black mb-3 tracking-normal leading-tight text-[var(--text-main)]",children:["Hola de nuevo, ",e.jsx("span",{className:"gradient-text",children:y})]}),e.jsx("p",{className:"text-[var(--text-muted)] font-medium text-sm sm:text-base",children:"Aquí tienes un resumen del estado actual de tu negocio."})]}),e.jsxs("div",{id:"dashboard-wrapper-force",className:"w-full max-w-[1750px] mx-auto mb-10",children:[e.jsx("style",{children:`
+import { c as createLucideIcon, u as useNavigate, a as useLiveQuery, j as jsxRuntimeExports, W as Wallet, P as Package, U as Users, d as db } from "./index.js";
+import { T as TriangleAlert } from "./triangle-alert.js";
+import { C as Clock } from "./clock.js";
+import { A as ArrowUpRight } from "./arrow-up-right.js";
+const __iconNode$1 = [
+  ["path", { d: "m7 7 10 10", key: "1fmybs" }],
+  ["path", { d: "M17 7v10H7", key: "6fjiku" }]
+];
+const ArrowDownRight = createLucideIcon("arrow-down-right", __iconNode$1);
+const __iconNode = [
+  ["path", { d: "M16 7h6v6", key: "box55l" }],
+  ["path", { d: "m22 7-8.5 8.5-5-5L2 17", key: "1t1m79" }]
+];
+const TrendingUp = createLucideIcon("trending-up", __iconNode);
+const StatCard = ({ label, value, icon: Icon, color, trend, onClick }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  "div",
+  {
+    onClick,
+    className: `glass-card p-6 relative overflow-hidden group ${onClick ? "cursor-pointer hover:ring-2 hover:ring-blue-500/50" : ""}`,
+    children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `absolute top-0 right-0 w-24 h-24 -mr-8 -mt-8 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity`, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 96 }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-4 relative z-10", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `p-4 rounded-2xl bg-slate-900/50 border border-slate-800 ${color} group-hover:scale-110 transition-transform duration-500`, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 24 }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black text-[var(--text-muted)] uppercase tracking-widest mb-1 opacity-70", children: label }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-end gap-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-2xl font-black tracking-normal text-[var(--text-main)]", children: value }),
+            trend && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: `flex items-center text-[10px] font-bold px-1.5 py-0.5 rounded-md mb-1 ${trend.startsWith("+") ? "bg-green-500/10 text-green-400" : "bg-red-500/10 text-red-400"}`, children: [
+              trend.startsWith("+") ? /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 10, className: "mr-0.5" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowDownRight, { size: 10, className: "mr-0.5" }),
+              trend
+            ] })
+          ] })
+        ] })
+      ] })
+    ]
+  }
+);
+const Dashboard = () => {
+  const navigate = useNavigate();
+  const settings = useLiveQuery(() => db.settings.toArray());
+  const productCount = useLiveQuery(() => db.products.count());
+  const contactCount = useLiveQuery(() => db.contacts.count());
+  const accounts = useLiveQuery(() => db.accounts.toArray());
+  const products = useLiveQuery(() => db.products.toArray());
+  const lowStockProducts = useLiveQuery(() => db.products.filter((p) => p.stock <= 5).toArray());
+  const recentTransactions = useLiveQuery(() => db.transactions.orderBy("date").reverse().limit(5).toArray());
+  const bizName = settings?.find((s) => s.key === "bizName")?.value || localStorage.getItem("bizName") || "Empresa";
+  const currency = settings?.find((s) => s.key === "currency")?.value || localStorage.getItem("currency") || "$";
+  const totalBalance = accounts?.reduce((acc, curr) => acc + Number(curr.balance || 0), 0) || 0;
+  const inventoryValue = products?.reduce((acc, curr) => acc + Number(curr.price || 0) * Number(curr.stock || 0), 0) || 0;
+  const getTxAmount = (tx) => {
+    if (tx.type === "transfer") return tx.unitPrice || 0;
+    const items = tx.items || (tx.productId ? [{ productId: tx.productId, quantity: tx.quantity || 1, unitPrice: tx.unitPrice || 0 }] : []);
+    const sub = items.reduce((s, i) => s + i.unitPrice * i.quantity, 0);
+    return sub * (tx.includesTax ? 1 + (tx.taxRate || 0) / 100 : 1);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "page-section p-4 sm:p-8 animate-fade-in flex flex-col", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "mb-12 pt-10 page-header", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-3xl sm:text-4xl font-black mb-3 tracking-normal leading-tight text-[var(--text-main)]", children: [
+        "Hola de nuevo, ",
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "gradient-text", children: bizName })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[var(--text-muted)] font-medium text-sm sm:text-base", children: "Aquí tienes un resumen del estado actual de tu negocio." })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { id: "dashboard-wrapper-force", className: "w-full max-w-[1750px] mx-auto mb-10", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
                   #dashboard-wrapper-force {
                     display: flex !important;
                     flex-direction: column !important;
@@ -13,4 +78,81 @@ import{c as j,u as C,a as r,j as e,W as A,P as m,U as T,d as n}from"./index.js";
                   .dashboard-card-force {
                     height: 100% !important;
                   }
-                `}),e.jsxs("div",{className:"dashboard-grid-force",children:[e.jsx(x,{label:"Caja Total",value:`${g}${k.toLocaleString()}`,icon:A,color:"text-emerald-300",trend:"+2.4%",onClick:()=>s("/accounting")}),e.jsx(x,{label:"Valor Inventario",value:`${g}${w.toLocaleString()}`,icon:m,color:"text-blue-300",onClick:()=>s("/stock",{state:{view:"monetized"}})}),e.jsx(x,{label:"Contactos",value:p||0,icon:T,color:"text-violet-300",onClick:()=>s("/contacts")}),e.jsx(x,{label:"Existencias",value:l||0,icon:m,color:"text-orange-300",onClick:()=>s("/stock")})]}),e.jsxs("div",{className:"dashboard-grid-force",children:[e.jsxs("div",{className:"glass-card p-8 flex flex-col dashboard-card-force cursor-pointer hover:ring-2 hover:ring-orange-500/50 transition-all",onClick:()=>s("/stock?filter=critical"),children:[e.jsxs("div",{className:"flex items-center justify-between mb-8",children:[e.jsxs("div",{className:"flex items-center gap-3",children:[e.jsx("div",{className:"p-2 bg-orange-500/10 rounded-lg text-orange-400",children:e.jsx($,{size:20})}),e.jsx("h2",{className:"text-xl font-bold tracking-normal text-[var(--text-main)]",children:"Stock Crítico"})]}),e.jsx("span",{className:"text-[10px] font-black bg-orange-500/10 text-orange-500 px-2 py-1 rounded uppercase",children:"Atención"})]}),e.jsxs("div",{className:"space-y-3 overflow-y-auto max-h-[300px] pr-2",children:[u?.map(t=>e.jsxs("div",{className:"flex justify-between items-center p-4 bg-slate-900/40 border border-white/5 rounded-2xl hover:border-orange-500/30 transition-all group",children:[e.jsxs("div",{className:"flex items-center gap-3",children:[e.jsx("div",{className:"w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center overflow-hidden",children:t.photo?e.jsx("img",{src:t.photo,alt:t.name,className:"w-full h-full object-cover"}):e.jsx(m,{className:"text-slate-600",size:18})}),e.jsx("span",{className:"font-bold text-sm",children:t.name})]}),e.jsxs("div",{className:"text-right",children:[e.jsx("p",{className:"text-[10px] text-slate-500 mb-0.5 uppercase font-black",children:"Disponible"}),e.jsx("span",{className:"font-mono text-orange-400 font-black text-lg",children:t.stock})]})]},t.id)),(!u||u.length===0)&&e.jsxs("div",{className:"text-center py-12 border-2 border-dashed border-white/5 rounded-2xl",children:[e.jsx(m,{className:"mx-auto mb-3 text-slate-800",size:32}),e.jsx("p",{className:"text-slate-500 font-medium text-sm italic",children:"Todo bajo control. No hay stock bajo."})]})]})]}),e.jsxs("div",{className:"glass-card p-8 flex flex-col shrink-0 cursor-pointer hover:ring-2 hover:ring-blue-500/50 transition-all",onClick:()=>s("/operations",{state:{filter:"recent"}}),children:[e.jsxs("div",{className:"flex items-center justify-between mb-8",children:[e.jsxs("div",{className:"flex items-center gap-3",children:[e.jsx("div",{className:"p-2 bg-blue-500/10 rounded-lg text-blue-400",children:e.jsx(P,{size:20})}),e.jsx("h2",{className:"text-xl font-bold tracking-normal text-[var(--text-main)]",children:"Últimos Movimientos"})]}),e.jsx(S,{size:16,className:"text-slate-700"})]}),e.jsxs("div",{className:"space-y-4 overflow-y-auto max-h-[300px] pr-2",children:[h?.map(t=>{const a=o?.find(d=>d.id===t.productId);return e.jsxs("div",{className:"flex items-center gap-4 p-3 hover:bg-white/[0.02] rounded-xl transition-colors border-b border-white/[0.01]",children:[e.jsx("div",{className:`w-10 h-10 rounded-xl flex items-center justify-center ${t.type==="sale"?"bg-red-500/10 text-red-400":"bg-green-500/10 text-green-400"}`,children:t.type==="sale"?e.jsx(N,{size:18}):e.jsx(v,{size:18})}),e.jsxs("div",{className:"flex-1 min-w-0",children:[e.jsx("p",{className:"font-bold text-sm truncate",children:a?.name||(t.type==="transfer"?"Transferencia":"Múltiples/Eliminado")}),e.jsxs("p",{className:"text-[10px] text-slate-500 font-medium uppercase",children:[new Date(t.date).toLocaleDateString()," • ",t.type==="sale"?"Venta":t.type==="transfer"?"Transf.":"Compra"]})]}),e.jsxs("div",{className:"text-right",children:[e.jsxs("p",{className:"font-black text-slate-200",children:[t.type==="sale"?"-":"+",t.items?t.items.reduce((d,b)=>d+b.quantity,0):t.quantity||1," prod."]}),e.jsxs("p",{className:"text-[10px] text-slate-500 font-bold",children:[g,z(t).toLocaleString()]})]})]},t.id)}),(!h||h.length===0)&&e.jsx("p",{className:"text-slate-500 text-center py-12 italic text-sm",children:"No hay actividad reciente para mostrar."})]})]})]})]})]})};export{R as Dashboard,R as default};
+                ` }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "dashboard-grid-force", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(StatCard, { label: "Caja Total", value: `${currency}${totalBalance.toLocaleString()}`, icon: Wallet, color: "text-emerald-300", trend: "+2.4%", onClick: () => navigate("/accounting") }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(StatCard, { label: "Valor Inventario", value: `${currency}${inventoryValue.toLocaleString()}`, icon: Package, color: "text-blue-300", onClick: () => navigate("/stock", { state: { view: "monetized" } }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(StatCard, { label: "Contactos", value: contactCount || 0, icon: Users, color: "text-violet-300", onClick: () => navigate("/contacts") }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(StatCard, { label: "Existencias", value: productCount || 0, icon: Package, color: "text-orange-300", onClick: () => navigate("/stock") })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "dashboard-grid-force", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass-card p-8 flex flex-col dashboard-card-force cursor-pointer hover:ring-2 hover:ring-orange-500/50 transition-all", onClick: () => navigate("/stock?filter=critical"), children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between mb-8", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-2 bg-orange-500/10 rounded-lg text-orange-400", children: /* @__PURE__ */ jsxRuntimeExports.jsx(TriangleAlert, { size: 20 }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-bold tracking-normal text-[var(--text-main)]", children: "Stock Crítico" })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[10px] font-black bg-orange-500/10 text-orange-500 px-2 py-1 rounded uppercase", children: "Atención" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3 overflow-y-auto max-h-[300px] pr-2", children: [
+            lowStockProducts?.map((p) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-center p-4 bg-slate-900/40 border border-white/5 rounded-2xl hover:border-orange-500/30 transition-all group", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center overflow-hidden", children: p.photo ? /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: p.photo, alt: p.name, className: "w-full h-full object-cover" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Package, { className: "text-slate-600", size: 18 }) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-bold text-sm", children: p.name })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-right", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] text-slate-500 mb-0.5 uppercase font-black", children: "Disponible" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono text-orange-400 font-black text-lg", children: p.stock })
+              ] })
+            ] }, p.id)),
+            (!lowStockProducts || lowStockProducts.length === 0) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-12 border-2 border-dashed border-white/5 rounded-2xl", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Package, { className: "mx-auto mb-3 text-slate-800", size: 32 }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-500 font-medium text-sm italic", children: "Todo bajo control. No hay stock bajo." })
+            ] })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass-card p-8 flex flex-col shrink-0 cursor-pointer hover:ring-2 hover:ring-blue-500/50 transition-all", onClick: () => navigate("/operations", { state: { filter: "recent" } }), children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between mb-8", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-2 bg-blue-500/10 rounded-lg text-blue-400", children: /* @__PURE__ */ jsxRuntimeExports.jsx(TrendingUp, { size: 20 }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-bold tracking-normal text-[var(--text-main)]", children: "Últimos Movimientos" })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { size: 16, className: "text-slate-700" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4 overflow-y-auto max-h-[300px] pr-2", children: [
+            recentTransactions?.map((tx) => {
+              const product = products?.find((p) => p.id === tx.productId);
+              return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-4 p-3 hover:bg-white/[0.02] rounded-xl transition-colors border-b border-white/[0.01]", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `w-10 h-10 rounded-xl flex items-center justify-center ${tx.type === "sale" ? "bg-red-500/10 text-red-400" : "bg-green-500/10 text-green-400"}`, children: tx.type === "sale" ? /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowDownRight, { size: 18 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ArrowUpRight, { size: 18 }) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-bold text-sm truncate", children: product?.name || (tx.type === "transfer" ? "Transferencia" : "Múltiples/Eliminado") }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[10px] text-slate-500 font-medium uppercase", children: [
+                    new Date(tx.date).toLocaleDateString(),
+                    " • ",
+                    tx.type === "sale" ? "Venta" : tx.type === "transfer" ? "Transf." : "Compra"
+                  ] })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-right", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "font-black text-slate-200", children: [
+                    tx.type === "sale" ? "-" : "+",
+                    tx.items ? tx.items.reduce((s, i) => s + i.quantity, 0) : tx.quantity || 1,
+                    " prod."
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[10px] text-slate-500 font-bold", children: [
+                    currency,
+                    getTxAmount(tx).toLocaleString()
+                  ] })
+                ] })
+              ] }, tx.id);
+            }),
+            (!recentTransactions || recentTransactions.length === 0) && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-slate-500 text-center py-12 italic text-sm", children: "No hay actividad reciente para mostrar." })
+          ] })
+        ] })
+      ] })
+    ] })
+  ] });
+};
+export {
+  Dashboard,
+  Dashboard as default
+};
